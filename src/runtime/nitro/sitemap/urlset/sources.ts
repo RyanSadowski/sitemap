@@ -23,7 +23,8 @@ export async function fetchDataSource(input: SitemapSourceBase | SitemapSourceRe
 
   let isHtmlResponse = false
   try {
-    const fetchContainer = (url.startsWith('/') && event) ? event : globalThis
+    const isFullyQualifiedUrl = url.startsWith('http://') || url.startsWith('https://')
+    const fetchContainer = (url.startsWith('/') && event && !isFullyQualifiedUrl) ? event : globalThis
     const urls = await fetchContainer.$fetch(url, {
       ...options,
       responseType: 'json',
